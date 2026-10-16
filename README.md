@@ -65,9 +65,21 @@ python -c "import ee; ee.Initialize()"
 
 ## Uso
 
+### 1. Entrenar el modelo (primera vez)
+
+```powershell
+python train.py
+```
+
+Esto descarga imágenes Sentinel-2 con etiquetas de ESA WorldCover y entrena el modelo ResNet-50. Guarda el resultado en `best_model.pth`.
+
+### 2. Clasificar imágenes
+
 ```powershell
 python main.py
 ```
+
+Usa el modelo entrenado para clasificar la cobertura terrestre de Armenia, Quindio.
 
 ## Coberturas detectadas
 

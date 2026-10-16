@@ -17,6 +17,7 @@ import os
 import sys
 
 import numpy as np
+import torch
 import ee
 
 # Add project root to path
@@ -25,7 +26,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from modules.gee_auth import initialize_ee
 from modules.download import download_sentinel2
 from modules.preprocess import create_rgb_ndvi, split_into_tiles
-from modules.model import LandCoverClassifier
+from modules.model import LandCoverClassifier, load_model
 from modules.inference import classify_tiles, calculate_statistics
 from modules.visualize import create_interactive_map
 
@@ -113,8 +114,18 @@ def main():
 
     # Step 5: Classify tiles
     print("\n[Step 5/6] Classifying tiles with ResNet-50...")
-    device = "cuda" if False else "cpu"  # Set to "cuda" if GPU available
-    classifier = LandCoverClassifier(num_classes=len(class_names), device=device)
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    checkpoint_path = "best_model.pth"
+
+    if os.path.exists(checkpoint_path):
+        print(f"  Loading trained model from {checkpoint_path}...")
+        classifier = load_model(
+            checkpoint_path, num_classes=len(class_names), device=device
+        )
+    else:
+        print("  WARNING: No trained model found. Using random initialization.")
+        print("  Run 'python train.py' first for accurate results.")
+        classifier = LandCoverClassifier(num_classes=len(class_names), device=device)
 
     label_map, confidence_map = classify_tiles(
         tiles, positions, classifier,

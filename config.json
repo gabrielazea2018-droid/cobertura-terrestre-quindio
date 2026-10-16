@@ -1,0 +1,26 @@
+{
+    "location": {
+        "name": "Armenia, Quindio, Colombia",
+        "latitude": 4.5339,
+        "longitude": -75.6811,
+        "buffer_km": 15
+    },
+    "image": {
+        "resolution_m": 10,
+        "max_cloud_cover": 10,
+        "days_to_search": 60
+    },
+    "model": {
+        "tile_size": 256,
+        "batch_size": 32,
+        "num_classes": 6
+    },
+    "classes": [
+        {"name": "forest", "label": "Forest", "color": "#228B22"},
+        {"name": "grassland", "label": "Grassland", "color": "#90EE90"},
+        {"name": "agriculture", "label": "Agriculture", "color": "#FFD700"},
+        {"name": "urban", "label": "Urban", "color": "#808080"},
+        {"name": "water", "label": "Water", "color": "#1E90FF"},
+        {"name": "bare_soil", "label": "Bare Soil", "color": "#8B4513"}
+    ]
+}
